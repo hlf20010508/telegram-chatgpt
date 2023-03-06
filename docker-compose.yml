@@ -1,0 +1,12 @@
+version: '3'
+services:
+  telegram-chatgpt:
+    container_name: telegram-chatgpt
+    image: hlf01/telegram-chatgpt
+    restart: always
+    network_mode: host
+    environment:
+      - token=$token
+      - api_key=$api_key
+      - preset=$preset
+    command: pipenv run python bot.py
