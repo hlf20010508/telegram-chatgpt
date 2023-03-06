@@ -1,6 +1,11 @@
 # telegram-chatgpt
 > A telegram bot based using chatgpt.
 
+## bot command
+- `/start` to start with bot
+- `/forget` to remove all memory
+- `/reset A SENTENCE ABOUT BOT'S CHARACTER` reset character background
+
 ## launch through docker
 ```sh
 # install docker-compose
