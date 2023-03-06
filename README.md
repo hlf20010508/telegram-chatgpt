@@ -16,7 +16,7 @@ sudo apt-get install docker-compose
 # openai: api_key
 # optional:
 # start_text (a message sent to user after using /start)
-# model (chatgpt version)，preset (background, eg: "You're my assistant."), memory_length (default 100, < 0 for unlimit)
+# model (chatgpt version)，preset (background, eg: You're my assistant.), memory_length (default 100, < 0 for unlimit)
 vim docker-compose.yml
 # launch
 sudo docker-compose up -d
