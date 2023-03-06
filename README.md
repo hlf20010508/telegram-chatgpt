@@ -4,7 +4,8 @@
 ## bot command
 - `/start` to start with bot
 - `/forget` to remove all memory
-- `/reset A SENTENCE ABOUT BOT'S CHARACTER` reset character background
+- `/reset A SENTENCE ABOUT BOT'S CHARACTER` to reset character background
+- `/help` for help
 
 ## launch through docker
 ```sh
