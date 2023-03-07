@@ -9,4 +9,4 @@ services:
       - token=$token
       - api_key=$api_key
       - preset=$preset
-    command: pipenv run python bot.py
+    command: python bot.py
