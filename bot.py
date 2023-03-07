@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
 from log import logger
 from chatgpt import ChatGPT
-from oga_to_webm import convert
+from ogg_to_wav import convert
 
 
 # telegram
@@ -68,10 +68,7 @@ async def voice(update: Update, context: ContextTypes().DEFAULT_TYPE):
     voice_file = await content.get_file()
     await voice_file.download_to_drive('voice.oga')
     convert('voice.oga', 'voice.wav')
-    # buffer = io.BytesIO()
-    # await voice_file.download_to_memory(buffer)
     with open('voice.wav', 'rb') as voice_file:
-        # voice_file.write(buffer.getbuffer())
         voice_text = chatgpt.voice_detect(voice_file)['text']
         os.remove('voice.oga')
         os.remove('voice.wav')

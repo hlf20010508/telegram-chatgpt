@@ -1,6 +1,9 @@
-FROM python:3.8.16-alpine3.17
+FROM python:3.8.16-slim-bullseye
 WORKDIR /telegram-chatgpt
 COPY ./ ./
-RUN pip install --no-cache-dir pipenv &&\
-    pipenv sync &&\
-    pipenv --clear
+
+RUN apt-get update &&\
+    apt-get install -y libsndfile-dev &&\
+    pip install openai python-telegram-bot soundfile numpy &&\
+    apt-get clean &&\
+    apt-get auto-remove -y

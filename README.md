@@ -1,6 +1,8 @@
 # telegram-chatgpt
 > A telegram bot based using chatgpt.
 
+Support text and voice input.
+
 ## bot command
 - `/start` to start with bot
 - `/forget` to remove all memory
