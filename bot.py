@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
 from log import logger
 from chatgpt import ChatGPT
-from ogg_to_wav import convert
+from oga_to_wav import convert
 
 
 # telegram
