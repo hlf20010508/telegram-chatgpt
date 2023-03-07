@@ -60,3 +60,7 @@ class ChatGPT:
       "role": "system",
       "content": self.preset
     })
+  
+  def voice_detect(self, buffer):
+    transcription = openai.Audio.transcribe("whisper-1", buffer)
+    return transcription
