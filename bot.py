@@ -1,8 +1,11 @@
 import os
+import io
 from telegram import Update
 from telegram.ext import filters, ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler
 from log import logger
 from chatgpt import ChatGPT
+from ogg_to_wav import convert
+
 
 # telegram
 TOKEN = os.environ['token']
@@ -58,6 +61,21 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger('User %s: %s\nBot: %s\n'%(chat_id, content, reply))
     await context.bot.send_message(chat_id=chat_id, text=reply)
 
+async def voice(update: Update, context: ContextTypes().DEFAULT_TYPE):
+    # output is .webm file
+    chat_id = update.effective_chat.id
+    content = update.message.voice
+    voice_file = await content.get_file()
+    await voice_file.download_to_drive('voice.oga')
+    convert('voice.oga', 'voice.wav')
+    with open('voice.wav', 'rb') as voice_file:
+        voice_text = chatgpt.voice_detect(voice_file)['text']
+        os.remove('voice.oga')
+        os.remove('voice.wav')
+    reply = chatgpt.reply(voice_text)
+    logger('(Voice) User %s: %s\nBot: %s\n'%(chat_id, voice_text, reply))
+    await context.bot.send_message(chat_id=chat_id, text=reply)
+
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
     
@@ -66,11 +84,13 @@ if __name__ == '__main__':
     reset_handler = CommandHandler('reset', reset)
     help_handler = CommandHandler('help', help)
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
+    voice_handler = MessageHandler(filters.VOICE, voice)
 
     application.add_handler(start_handler)
     application.add_handler(forget_handler)
     application.add_handler(reset_handler)
     application.add_handler(help_handler)
     application.add_handler(echo_handler)
+    application.add_handler(voice_handler)
     
     application.run_polling()

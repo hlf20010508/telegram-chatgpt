@@ -1,6 +1,8 @@
 # telegram-chatgpt
 > A telegram bot based using chatgpt.
 
+Support text and voice input.
+
 ## bot command
 - `/start` to start with bot
 - `/forget` to remove all memory
@@ -16,7 +18,9 @@ sudo apt-get install docker-compose
 # openai: api_key
 # optional:
 # start_text (a message sent to user after using /start)
-# model (chatgpt version)，preset (background, eg: You're my assistant.), memory_length (default 100, < 0 for unlimit)
+# model (chatgpt version)，preset (self introduction, eg: You're my friend), memory_length (default 100, < 0 for unlimit)
+# in preset, the subject is chatgpt, eg: I'm Marry, You're Mike. so chatgpt is Marry, you are Mkie.
+# don't use quotation marks for preset in docker-compose.yml, but in system environmant setting.
 vim docker-compose.yml
 # launch
 sudo docker-compose up -d
@@ -36,6 +40,8 @@ pipenv sync
 # set environment args
 export token=$token
 export api_key=$api_key
+# optional
+export preset=$preset
 # launch
 pipenv run python bot.py
 ```
