@@ -5,7 +5,7 @@ Support text and voice input.
 
 ## bot command
 - `/start` to start with bot
-- `/forget` to remove all memory
+- `/forget` to remove all memory, won't change preset
 - `/reset A SENTENCE ABOUT BOT'S CHARACTER` to reset character background
 - `/help` for help
 

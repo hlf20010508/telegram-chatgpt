@@ -7,5 +7,5 @@ def logger(message):
     with open(log_path, 'a') as log_file:
         time = datetime.now()
         message = '%s\n%s\n'%(time, message)
-        print(message)
+        print(message, end='')
         log_file.write(message)

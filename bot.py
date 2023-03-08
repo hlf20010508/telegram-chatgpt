@@ -18,7 +18,7 @@ memory_length = int(os.environ.get('memory_length', 100))
 help_text = """
 Here are commands for you:
 - `/start` to start with bot
-- `/forget` to remove all memory
+- `/forget` to remove all memory, won't change preset
 - `/reset A SENTENCE ABOUT BOT'S CHARACTER` to reset character background
 """
 
@@ -44,7 +44,7 @@ async def forget(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     setting = ' '.join(context.args)
-    old_setting = chatgpt.preset
+    old_setting = chatgpt.preset['content']
     chatgpt.reset_character(setting)
     logger("User %s reset bot's character\nfrom:\n%s\nto:\n%s\n"%(chat_id, old_setting, setting))
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Successfully reset bot's character\nfrom:\n%s\nto:\n%s\n"%(old_setting, setting))
@@ -57,23 +57,27 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     content = update.message.text
+    logger('User %s: %s'%(chat_id, content))
     reply = chatgpt.reply(content)
-    logger('User %s: %s\nBot: %s\n'%(chat_id, content, reply))
+    logger('Bot: %s\n'%reply)
     await context.bot.send_message(chat_id=chat_id, text=reply)
 
 async def voice(update: Update, context: ContextTypes().DEFAULT_TYPE):
     # output is .webm file
     chat_id = update.effective_chat.id
     content = update.message.voice
+    logger('User %s sent a voice')
     voice_file = await content.get_file()
     await voice_file.download_to_drive('voice.oga')
     convert('voice.oga', 'voice.wav')
     with open('voice.wav', 'rb') as voice_file:
         voice_text = chatgpt.voice_detect(voice_file)['text']
-        os.remove('voice.oga')
-        os.remove('voice.wav')
+        logger('Voice to text convertion completed')
+        logger('User %s: %s'%(chat_id, voice_text))
+    os.remove('voice.oga')
+    os.remove('voice.wav')
     reply = chatgpt.reply(voice_text)
-    logger('(Voice) User %s: %s\nBot: %s\n'%(chat_id, voice_text, reply))
+    logger('Bot: %s\n'%reply)
     await context.bot.send_message(chat_id=chat_id, text=reply)
 
 if __name__ == '__main__':
