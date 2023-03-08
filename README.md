@@ -1,11 +1,11 @@
 # telegram-chatgpt
-> A telegram bot based using chatgpt.
+> A telegram bot using chatgpt.
 
 Support text and voice input.
 
 ## bot command
 - `/start` to start with bot
-- `/forget` to remove all memory
+- `/forget` to remove all memory, won't change preset
 - `/reset A SENTENCE ABOUT BOT'S CHARACTER` to reset character background
 - `/help` for help
 
@@ -28,7 +28,7 @@ sudo docker-compose up -d
 
 build your docker image
 ```sh
-sudo docker build -t YOUR_HOST_NAME/wechat-chatgpt --no-cache .
+sudo docker build -t YOUR_HOST_NAME/telegram-chatgpt --no-cache .
 ```
 
 ## launch directly

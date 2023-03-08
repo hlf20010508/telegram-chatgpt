@@ -7,14 +7,14 @@ class ChatGPT:
     # 对话历史记录
     self.conversation = []
     # 一段对角色预设的描述
-    self.preset = preset
+    self.preset = {
+      "role": "system",
+      "content": preset
+    }
     # 对话记录长度
     self.memory_length = memory_length
 
-    self.conversation.append({
-      "role": "system",
-      "content": self.preset
-    })
+    self.conversation.append(self.preset)
 
   def reply(self, message):
     self.conversation.append({
@@ -39,26 +39,19 @@ class ChatGPT:
     return result
   
   def delete_memory(self):
-    self.conversation = []
+    self.conversation = [self.preset]
   
   # 遗忘超过设定对话记录长度的对话
   def recycle_memory(self):
     length = len(self.conversation)
     if length > self.memory_length:
       self.conversation = self.conversation[length - self.memory_length : ]
-      self.conversation.insert(0, {
-        "role": "system",
-        "content": self.preset
-      })
+      self.conversation.insert(0, self.preset)
 
   # 设定新的角色预设。这会清空所有对话记录
   def reset_character(self, setting):
-    self.preset = setting
-    self.delete_memory()
-    self.conversation.append({
-      "role": "system",
-      "content": self.preset
-    })
+    self.preset['content'] = setting
+    self.conversation = [self.preset]
   
   def voice_detect(self, buffer):
     transcription = openai.Audio.transcribe("whisper-1", buffer)
